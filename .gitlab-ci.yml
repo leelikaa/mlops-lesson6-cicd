@@ -1,0 +1,22 @@
+before_script:
+  - apt-get update
+  - apt install curl -y
+  - curl https://dl.min.io/client/mc/release/linux-amd64/mc --create-dirs -o $HOME/minio-binaries/mc
+  - chmod +x $HOME/minio-binaries/mc
+  - export PATH=$PATH:$HOME/minio-binaries/
+  - mc alias set $ALIAS $MINIO_URL $ACCESS_KEY $SECRET_KEY
+
+stages:
+  - downloading
+
+variables:
+  ALIAS: 'MinIO'
+
+load_image:
+  stage: downloading
+  image: ubuntu:22.04
+  script:
+    - mc cp $ALIAS/$BUCKET_NAME/$FILE_PATH $LOCAL_PATH
+    - echo "$HASH_STRING $LOCAL_PATH" | md5sum -c
+  only:
+    - merge_requests
