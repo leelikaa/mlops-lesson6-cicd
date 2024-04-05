@@ -4,7 +4,6 @@ before_script:
 stages:
   - greeting
   - test
-  - int_test
 
 greet:
   stage: greeting
@@ -21,22 +20,21 @@ lintest:
   allow_failure: true
   only:
     - merge_requests
-    - master
 
 unit_test:
   stage: test
   image: python:3.8
   script:
-    - pytest ./tests/unit.
+    - pytest tests/unit
   only:
     - merge_requests
-    - master
 
 integration_test:
   stage: int_test
   image: python:3.8
   script:
-    - pytest ./tests/integration
+    - pytest tests/integration
   when: manual
-  needs:
-  - job: unit_test
+  only:
+    - merge_requests
+  needs: [ "unit_test" ]
