@@ -16,7 +16,7 @@ load_image:
   stage: downloading
   image: ubuntu:22.04
   script:
-    - mc cp $ALIAS/$BUCKET-NAME/$FILE-PATH $LOCAL-PATH
+    - mc cp $ALIAS/$BUCKET_NAME/$FILE_PATH $LOCAL_PATH
     - echo "$HASH_STRING $LOCAL_PATH" | md5sum -c
   only:
     - merge_requests
