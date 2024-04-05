@@ -30,11 +30,9 @@ unit_test:
     - merge_requests
 
 integration_test:
-  stage: int_test
+  stage: test
   image: python:3.8
   script:
     - pytest tests/integration
   when: manual
-  only:
-    - merge_requests
   needs: [ "unit_test" ]
