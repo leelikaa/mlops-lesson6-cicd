@@ -4,6 +4,7 @@ before_script:
 stages:
   - greeting
   - test
+  - int_test
 
 greet:
   stage: greeting
@@ -30,9 +31,10 @@ unit_test:
     - merge_requests
 
 integration_test:
-  stage: test
+  stage: int_test
   image: python:3.8
   script:
     - pytest tests/integration
   when: manual
-  needs: [ "unit_test" ]
+  dependencies:
+    - unit_test
